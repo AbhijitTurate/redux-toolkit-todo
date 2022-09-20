@@ -43,6 +43,8 @@ const todoSlice = createSlice({
     }
 })
 
+// id:uuid() , desc: desc , isComplete:false
+
 const selectTodoSlice=createSlice({
     name:"selectedTodo",
     initialState: null as string |null,
@@ -65,10 +67,18 @@ const counterSlice = createSlice({
     }
 })
 
+const themeSlice= createSlice({
+    name:"theme",
+    initialState: false,
+    reducers:{
+        toggle:(state , {payload}: PayloadAction<{theme : boolean}>)=> payload.theme
+    }
+})
 const reducers= combineReducers({
     todos: todoSlice.reducer,
     counter : counterSlice.reducer,
     selectedTodo: selectTodoSlice.reducer,
+    theme: themeSlice.reducer
 })
 
 export const{
@@ -79,8 +89,13 @@ export const{
 } = todoSlice.actions
 
 export const{
+    toggle: toggleThemeAction
+} = themeSlice.actions;
+
+export const{
     select: selectedTodoAction
 } = selectTodoSlice.actions;
+
 
 const middleware = [...getDefaultMiddleware(),logger]
 export const store = configureStore({ reducer: reducers ,  devTools: process.env.NODE_ENV !== 'production', middleware})

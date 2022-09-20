@@ -1,5 +1,4 @@
 import logo from './logo.svg';
-import './App.css';
 import { useSelector, useDispatch } from 'react-redux';
 import React, {
   ChangeEvent,
@@ -9,23 +8,29 @@ import React, {
   useState
 } from "react";
 import { v1 as uuid } from "uuid";
+import '@contentstack/venus-components/build/main.css';
+
+import "./styles/App.css";
+import "./styles/darkTheme.css"
+import { ToggleSwitch } from '@contentstack/venus-components';
 import { State, Todo } from './Types';
-import "./App.css";
+
 // import { createTodoAction, deleteTodoAction, editTodoAction, selectedTodoAction, toggleDataAction } from './components/redux-og';
-import { createTodoAction, deleteTodoAction, editTodoAction, selectedTodoAction, toggleDataAction } from './components/redux-toolkit';
+import { createTodoAction, deleteTodoAction, editTodoAction, selectedTodoAction, toggleDataAction, toggleThemeAction } from './components/redux-toolkit';
 
 
 
 function App() {
-  const [newTodoInput, setNewTodoInput] = useState<string>("");
-  const [editTodoInput, setEditTodoInput] = useState<string>("");
-  const [isEditMode, setIsEditMode] = useState<boolean>(false);
+  const [newTodoInput, setNewTodoInput] = useState("");
+  const [editTodoInput, setEditTodoInput] = useState("");
+  const [isEditMode, setIsEditMode] = useState(false);
   const editInput = useRef<HTMLInputElement>(null);
 
   const todos = useSelector((state: State) => state.todos)
   const dispatch = useDispatch();
   const selectedTodoId = useSelector((state: State) => state.selectedTodo);
   const editedCount = useSelector((state: State) => state.counter);
+  const theme = useSelector((state: State) => state.theme);
   const selectedTodo = (selectedTodoId && todos.find(todo => todo.id === selectedTodoId)) || null;
 
   const handleNewInputChange = (e: ChangeEvent<HTMLInputElement>): void => {
@@ -38,14 +43,15 @@ function App() {
 
   const handleCreateNewTodo = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
+
     dispatch(createTodoAction({ desc: newTodoInput }));
     setNewTodoInput("");
   };
 
-  const handleSelectTodo = (todoId: string) => (): void => { 
-    console.log("todoid:",todoId);
-    
-    dispatch(selectedTodoAction({id:todoId}))
+  const handleSelectTodo = (todoId: string) => (): void => {
+    console.log("todoid:", todoId);
+
+    dispatch(selectedTodoAction({ id: todoId }))
   };
 
   const handleEdit = (): void => {
@@ -64,11 +70,11 @@ function App() {
   const handleUpdate = (e: FormEvent<HTMLFormElement>): void => {
     e.preventDefault();
 
-    if(!editTodoInput.length || !selectedTodoId){
+    if (!editTodoInput.length || !selectedTodoId) {
       handleCancelUpdate();
       return
     }
-    dispatch(editTodoAction({id: selectedTodoId, desc: editTodoInput}))
+    dispatch(editTodoAction({ id: selectedTodoId, desc: editTodoInput }))
     setIsEditMode(false);
     setEditTodoInput("");
   };
@@ -84,22 +90,46 @@ function App() {
   const handleToggle = (): void => {
     if (!selectedTodoId || !selectedTodo) return;
 
-    dispatch(toggleDataAction({id: selectedTodoId , isComplete: !selectedTodo.isComplete}))
+    dispatch(toggleDataAction({ id: selectedTodoId, isComplete: !selectedTodo.isComplete }))
   };
 
   const handleDelete = (): void => {
     if (!selectedTodoId) return;
 
-    dispatch(deleteTodoAction({id: selectedTodoId}));
+    dispatch(deleteTodoAction({ id: selectedTodoId }));
   };
 
-
+  const handlethemeToggle = (): void => {
+    dispatch(toggleThemeAction({ theme: !theme }))
+  }
+  const checkedProp = true;
   return (
-    <div className="App">
-      <div className="App__counter">Todos Updated Count: {editedCount}</div>
+    <div className={`App ${theme ? "dark" : ""}`} >
+      {/* <div className="App__counter">Todos Updated Count: {editedCount}</div> */}
+      <div className='App__navbar'>
+        <div className="App__counter">Todos Updated Count: {editedCount}</div>
+        <div className='App__theme'>
+          Theme: {theme ? "dark" : "light"}
+          <ToggleSwitch
+            labelColor="primary"
+            labelPosition="left"
+            onChange={handlethemeToggle}
+            onClick={function noRefCheck() { }}
+            testId="cs-toggle-switch"
+            // checked= {checkedProp}
+          />
+          {/* <div className='toggle-switch'>
+            <label>
+              <input type='checkbox' />
+              <span className='slider'></span>
+            </label>
+          </div> */}
+        </div>
+      </div>
+
       <div className="App__header">
         <h1>Todo: Redux vs RTK Edition</h1>
-        <form onSubmit={handleCreateNewTodo}>
+        <form  className="" onSubmit={handleCreateNewTodo}>
           <label htmlFor="new-todo">Add new:</label>
           <input
             onChange={handleNewInputChange}

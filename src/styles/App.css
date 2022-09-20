@@ -1,3 +1,28 @@
+@import url(./Variables.css);
+
+
+.App{
+  background-color: var(---primary-color);
+  color: var(---color);
+  /* background-color: #010101;
+  color: ; */
+  height: 100vh;
+}
+
+.App__navbar{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.App__theme{
+  display: flex;
+  flex-direction: row;
+  gap:0.5rem;
+  font-size: 18px;
+  margin-right: 64px;
+}
+
 .App__counter {
   height: 60px;
   display: flex;
@@ -8,9 +33,10 @@
 
 .App__header {
   align-items: center;
+  /* background-color: #7f5af0; */
   background: rgb(118, 74, 188);
   color: white;
-  display: flex;
+  display: flex !important;
   flex-direction: column;
   justify-content: center;
   padding: 64px 0;
@@ -75,7 +101,8 @@ button:active {
 .App__list {
   list-style-type: none;
   font-size: 17px;
-  color: rgb(28, 30, 33);
+  color: var(color) !important;
+  /* color: rgb(28, 30, 33); */
   line-height: 25.5px;
   margin-block-start: 0;
   margin-block-end: 0;
@@ -120,3 +147,54 @@ li.active {
 .todo-actions {
   margin-top: 16px;
 }
+/*
+.toggle-switch {
+  position: relative;
+  width: 200px;
+}
+
+label {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  background-color: var(--dark);
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+input {
+  position: absolute;
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  transition: 0.3s;
+}
+
+input:checked ~ .slider {
+  background-color: var(--light);
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  top: 13px;
+  left: 16px;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  box-shadow: inset 28px -4px 0px 0px var(--light);
+  background-color: var(--dark);
+  transition: 0.3s;
+}
+
+input:checked ~ .slider::before {
+  transform: translateX(95px);
+  background-color: var(--dark);
+  box-shadow: none;
+}
+*/

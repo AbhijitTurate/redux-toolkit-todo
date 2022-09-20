@@ -8,4 +8,5 @@
     todos: Todo[],
     counter : number,
     selectedTodo : string|null
+    theme: string
  }

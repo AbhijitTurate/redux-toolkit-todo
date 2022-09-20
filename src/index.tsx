@@ -5,15 +5,20 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './components/redux-toolkit';
+import AppRouter from './Routing/AppRouter';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
- 
+
   <React.StrictMode>
-     <Provider store={store}>
-    <App />
+
+    <Provider store={store}>
+      <AppRouter>
+        <App />
+      </AppRouter>
     </Provider>
+
   </React.StrictMode>
 );
 
